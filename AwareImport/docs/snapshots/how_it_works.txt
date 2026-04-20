@@ -1,0 +1,10 @@
+# How This App Works (synthesized)
+
+- Batch parsing tool — processes multiple input files and exports structured output
+- Desktop GUI application (PySide6/Qt) — user interacts via windowed interface
+- Layered architecture — UI layer (ui/) → business logic (services/) → data models (models/)
+- Primary input: Excel workbooks (.xlsx/.xlsm) — parsed via openpyxl
+- Secondary input: PDF documents — extracted via pypdf for metadata/fallback
+- Primary output: CSV files — formatted for downstream import systems
+- Fuzzy matching — uses thefuzz to correlate entities across data sources
+- Persistence: QSettings (Windows Registry) for UI state + JSON session files for workspace

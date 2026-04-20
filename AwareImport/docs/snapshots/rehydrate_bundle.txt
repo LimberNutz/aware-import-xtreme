@@ -1,0 +1,129 @@
+# Rehydration Bundle — AwareImport
+# Generated: 2026-04-14T20:27:21Z
+# Regenerate: python tools/blueprint/snapshot.py
+
+## Stack
+  - Python (pip)
+  - PySide6 (Qt GUI)
+
+## Architecture
+  - Layered application: ui/ + services/ + models/
+  - Desktop GUI bootstrap in main.py (Qt application)
+  - Primary UI entry imports ui.main_window: MainWindow
+  - Blueprint documentation present: docs/00_BLUEPRINT.md
+  - app/: application config/constants
+
+## How This App Works
+  - Batch parsing tool — processes multiple input files and exports structured output
+  - Desktop GUI application (PySide6/Qt) — user interacts via windowed interface
+  - Layered architecture — UI layer (ui/) → business logic (services/) → data models (models/)
+  - Primary input: Excel workbooks (.xlsx/.xlsm) — parsed via openpyxl
+  - Secondary input: PDF documents — extracted via pypdf for metadata/fallback
+  - Primary output: CSV files — formatted for downstream import systems
+  - Fuzzy matching — uses thefuzz to correlate entities across data sources
+  - Persistence: QSettings (Windows Registry) for UI state + JSON session files for workspace
+
+## Key Directories
+  .agent/  (3 files)
+  .codex/  (2 files)
+  .llm/  (1 files)
+  app/  (3 files)
+  docs/  (5 files)
+  models/  (2 files)
+  services/  (12 files)
+  tools/  (0 files)
+  ui/  (6 files)
+  utils/  (2 files)
+
+## Entry Points
+  GUI Entry: python main.py
+  Type: PySide6/Qt GUI application
+  Guard: if __name__ == '__main__'
+
+## Dependencies (summary)
+  PySide6>=6.6.0
+  openpyxl>=3.1.2
+  thefuzz[speedup]>=0.20.0
+  pydantic>=2.5.0
+  send2trash>=1.8.0
+  pypdf>=4.0.0
+
+## API Surface
+  - app/config.py: classes=AppConfig
+  - models/cml_row.py: classes=CMLRow, EntityInfoRow, FileEntry
+  - services/aggregator.py: functions=aggregate_rows
+  - services/csv_exporter.py: functions=export_csv, build_inspection_freq_rows, export_inspection_freq_csv
+  - services/entity_info.py: functions=build_entity_info_rows
+  - services/excel_parser.py: functions=parse_excel_file, extract_inspection_date
+  - services/excel_writer.py: functions=write_back_changes, write_back_entity_changes, write_back_ta_changes
+  - services/file_discovery.py: functions=find_excel_files, fuzzy_match_files, batch_search_files, search_files_by_keyword
+
+## Config / Persistence
+  - app/config.py
+  - app/constants.py
+  - session_folder (seen 4 times)
+  - last_session_path (seen 3 times)
+  - system_path (seen 2 times)
+  - deadleg (seen 2 times)
+  - insp_freq_export (seen 2 times)
+  - pid_prefix (seen 2 times)
+
+## Integrations
+  - CSV read/write: app/constants.py, services/csv_exporter.py, tools/blueprint/snapshot.py, ui/controls_bar.py
+  - Excel workbook I/O: main.py, services/excel_parser.py, services/excel_writer.py, tools/blueprint/snapshot.py
+  - Fuzzy matching: services/file_discovery.py, tools/blueprint/snapshot.py, ui/dialogs.py, ui/main_window.py
+  - JSON session/config persistence: services/session.py, tools/blueprint/snapshot.py, tools/blueprint_installer/install.py
+  - PDF parsing: main.py, services/entity_info.py, tools/blueprint/snapshot.py
+  - Safe file deletion: tools/blueprint/snapshot.py, ui/file_list_panel.py
+
+## Test Commands
+  No test runner detected
+  Recommended: python -m pytest tests/
+
+## DB / Migrations
+  No database or ORM detected.
+  This project uses in-memory data with optional JSON session files.
+
+## Data Flow Hints
+  - main -> ui
+  - main -> ui.main_window
+  - models (imported by 12 modules)
+  - models.cml_row (imported by 12 modules)
+  - app.constants (imported by 7 modules)
+  - app (imported by 7 modules)
+  - utils.helpers (imported by 5 modules)
+  - utils (imported by 5 modules)
+
+## Load These Files First
+
+Priority 1 (always load):
+  docs/00_BLUEPRINT.md  [ok]
+  .llm/rules.md  [ok]
+
+Priority 2 (load for non-trivial changes):
+  docs/INTERFACE_MAP.md  [ok]
+  docs/SAFE_CHANGELOG.md  [ok]
+  docs/DB_CONTRACT.md  [ok]
+  tools/blueprint/verify_before_merge.md  [ok]
+
+Priority 3 (reference as needed):
+  docs/snapshots/tree.txt  [ok]
+  docs/snapshots/deps.txt  [ok]
+  docs/snapshots/entrypoints.txt  [ok]
+  docs/adr/0001-architecture-baseline.md  [ok]
+  tools/blueprint/change_request_template.md  [ok]
+
+## Env Files
+  No .env files detected.
+  This project uses QSettings (Windows Registry) for configuration persistence.
+
+## Documentation Index
+  - .agent/CONTRACTS.md: Behavioral Contracts
+  - .agent/DIFFLOG.md: Update Discipline Rules
+  - .agent/STATE.md: Project Snapshot (Initial Baseline)
+  - .codex/project-context.md: Project Context
+  - .llm/rules.md: LLM Rules for This Repository
+  - Prompt.md: ROLE
+  - README.md: AwareImport — CML Batch Builder
+  - docs/00_BLUEPRINT.md: AwareImport — Project Blueprint
+

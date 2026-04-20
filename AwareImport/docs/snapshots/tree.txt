@@ -1,0 +1,88 @@
+AwareImport/
+├── .gitignore
+├── 2014 B31.3 (CS).csv
+├── 2014 B31.3 (SS).csv
+├── Prompt.md
+├── README.md
+├── equip_CML_Import.csv
+├── main.py
+├── repo_dirs.txt
+├── repo_files.txt
+├── requirements.txt
+├── scratchpad.md
+├── .agent/
+│   ├── CONTRACTS.md
+│   ├── DIFFLOG.md
+│   └── STATE.md
+├── .codex/
+│   ├── project-context.md
+│   └── project-inventory.json
+├── .llm/
+│   └── rules.md
+├── app/
+│   ├── __init__.py
+│   ├── config.py
+│   └── constants.py
+├── docs/
+│   ├── 00_BLUEPRINT.md
+│   ├── DB_CONTRACT.md
+│   ├── Equip_CML_Import.csv
+│   ├── INTERFACE_MAP.md
+│   ├── SAFE_CHANGELOG.md
+│   ├── AMINE-034/
+│   │   ├── AMINE-034 CAD.bak
+│   │   └── AMINE-034 CAD.dwg
+│   ├── adr/
+│   │   └── 0001-architecture-baseline.md
+│   └── snapshots/
+│       ├── README.md
+│       ├── api_surface.txt
+│       ├── architecture.txt
+│       ├── config_patterns.txt
+│       ├── data_flow.txt
+│       ├── db.txt
+│       ├── deps.txt
+│       ├── docs_index.txt
+│       ├── entrypoints.txt
+│       ├── env.txt
+│       ├── how_it_works.txt
+│       ├── integrations.txt
+│       ├── rehydrate_bundle.txt
+│       ├── tests.txt
+│       └── tree.txt
+├── models/
+│   ├── __init__.py
+│   └── cml_row.py
+├── services/
+│   ├── __init__.py
+│   ├── aggregator.py
+│   ├── csv_exporter.py
+│   ├── entity_info.py
+│   ├── excel_parser.py
+│   ├── excel_writer.py
+│   ├── file_discovery.py
+│   ├── session.py
+│   ├── thickness_activity.py
+│   ├── transformer.py
+│   ├── traveler_parser.py
+│   └── worker.py
+├── tools/
+│   ├── blueprint/
+│   │   ├── change_request_template.md
+│   │   ├── rehydrate_prompt.md
+│   │   ├── rehydrate_prompt.txt
+│   │   ├── snapshot.py
+│   │   └── verify_before_merge.md
+│   └── blueprint_installer/
+│       ├── README.md
+│       └── install.py
+├── ui/
+│   ├── __init__.py
+│   ├── controls_bar.py
+│   ├── dialogs.py
+│   ├── file_list_panel.py
+│   ├── main_window.py
+│   └── preview_panel.py
+└── utils/
+    ├── __init__.py
+    └── helpers.py

@@ -1,0 +1,6 @@
+# Entry Points (auto-detected)
+
+GUI Entry: python main.py
+  Type: PySide6/Qt GUI application
+  Guard: if __name__ == '__main__'
+

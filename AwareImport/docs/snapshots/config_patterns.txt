@@ -1,0 +1,24 @@
+# Configuration Patterns (auto-detected)
+
+## Config files
+- app/config.py
+- app/constants.py
+
+## QSettings keys
+- session_folder (seen 4 times)
+- last_session_path (seen 3 times)
+- system_path (seen 2 times)
+- deadleg (seen 2 times)
+- insp_freq_export (seen 2 times)
+- pid_prefix (seen 2 times)
+- add_files_folder (seen 2 times)
+- add_folder_folder (seen 2 times)
+- traveler_folder (seen 2 times)
+
+## AppConfig fields
+- system_path
+- standard_cml_style
+- last_directory
+- window_width
+- window_height
+

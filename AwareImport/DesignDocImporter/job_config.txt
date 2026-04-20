@@ -1,0 +1,8 @@
+ROOT_DIR=C:\Users\cherr\Desktop\1. Working Projects\Golden Grain\CAD2
+SYSTEM_PATH_BASE=XCEL > Golden Grain Energy > Mason City, IA > Unit > Piping >
+MAX_DEPTH=2
+OUTPUT_DIR=C:\Users\cherr\Desktop\1. Working Projects\Golden Grain\Exports
+PROJECT_NAME=GoldenGrain
+AUTO_DISCOVER_ENTITIES=true
+IGNORE_RECOVER_FILES=true
+PREFER_DWG_FOR_ENTITY_DISCOVERY=true

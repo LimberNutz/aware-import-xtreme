@@ -1,0 +1,28 @@
+# API Surface (auto-detected)
+
+## app/
+- app/config.py: classes=AppConfig
+
+## models/
+- models/cml_row.py: classes=CMLRow, EntityInfoRow, FileEntry
+
+## services/
+- services/aggregator.py: functions=aggregate_rows
+- services/csv_exporter.py: functions=export_csv, build_inspection_freq_rows, export_inspection_freq_csv
+- services/entity_info.py: functions=build_entity_info_rows
+- services/excel_parser.py: functions=parse_excel_file, extract_inspection_date
+- services/excel_writer.py: functions=write_back_changes, write_back_entity_changes, write_back_ta_changes
+- services/file_discovery.py: functions=find_excel_files, fuzzy_match_files, batch_search_files, search_files_by_keyword
+- services/session.py: functions=save_session, load_session
+- services/thickness_activity.py: functions=build_thickness_activity_view
+
+## ui/
+- ui/controls_bar.py: classes=ControlsBar
+- ui/dialogs.py: classes=FuzzyMatchDialog, SearchDialog
+- ui/file_list_panel.py: classes=FileListModel, FileListPanel
+- ui/main_window.py: classes=MainWindow
+- ui/preview_panel.py: classes=PreviewTableModel, SortFilterProxy, ThicknessActivityModel, EntityInfoModel
+
+## utils/
+- utils/helpers.py: functions=temp_open_workbook, format_cml_standard, format_cml_client, cml_suffix_value, safe_str
+

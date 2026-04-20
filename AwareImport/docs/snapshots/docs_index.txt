@@ -1,0 +1,20 @@
+# Documentation Index (auto-detected)
+
+- .agent/CONTRACTS.md: Behavioral Contracts
+- .agent/DIFFLOG.md: Update Discipline Rules
+- .agent/STATE.md: Project Snapshot (Initial Baseline)
+- .codex/project-context.md: Project Context
+- .llm/rules.md: LLM Rules for This Repository
+- Prompt.md: ROLE
+- README.md: AwareImport — CML Batch Builder
+- docs/00_BLUEPRINT.md: AwareImport — Project Blueprint
+- docs/DB_CONTRACT.md: Database Contract
+- docs/INTERFACE_MAP.md: Interface Map
+- docs/SAFE_CHANGELOG.md: Safe Changelog — How to Change This Project Safely
+- docs/adr/0001-architecture-baseline.md: ADR-0001: Architecture Baseline
+- docs/snapshots/README.md: Snapshots
+- scratchpad.md: AwareImport — Bug Fix Plan
+- tools/blueprint/change_request_template.md: Change Request
+- tools/blueprint/rehydrate_prompt.md: Rehydration Prompt
+- tools/blueprint/verify_before_merge.md: Pre-Merge Verification Checklist
+- tools/blueprint_installer/README.md: Blueprint Installer

@@ -1,0 +1,7 @@
+# Test Infrastructure (auto-detected)
+
+No test directories or test files detected.
+
+Recommended: create tests/ with pytest
+  pip install pytest
+  python -m pytest tests/

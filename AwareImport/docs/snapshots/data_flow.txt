@@ -1,0 +1,18 @@
+# Data Flow Hints (auto-detected)
+
+## Main entry imports
+- main -> ui
+- main -> ui.main_window
+
+## Most referenced local modules
+- models (imported by 12 modules)
+- models.cml_row (imported by 12 modules)
+- app.constants (imported by 7 modules)
+- app (imported by 7 modules)
+- utils.helpers (imported by 5 modules)
+- utils (imported by 5 modules)
+- services (imported by 4 modules)
+- services.excel_parser (imported by 4 modules)
+- ui (imported by 2 modules)
+- services.transformer (imported by 2 modules)
+

@@ -1,0 +1,246 @@
+{
+  "root": "C:\\Users\\cherr\\Desktop\\Codes\\AwareImport",
+  "generated_at_utc": "2026-03-17T21:45:06.952481+00:00",
+  "top_level_entries": [
+    ".agent",
+    ".codex",
+    ".git",
+    ".gitignore",
+    ".llm",
+    "2014 B31.3 (CS).csv",
+    "2014 B31.3 (SS).csv",
+    "Equip_CMLTable WORKING.xlsm",
+    "Prompt.docx",
+    "Prompt.md",
+    "README.md",
+    "SystemNameExplained.PNG",
+    "UT Sheet.png",
+    "WorkingSheetSnip.PNG",
+    "__pycache__",
+    "app",
+    "docs",
+    "equip_CML_Import.csv",
+    "main.py",
+    "models",
+    "repo_dirs.txt",
+    "repo_files.txt",
+    "requirements.txt",
+    "scratchpad.md",
+    "services",
+    "tools",
+    "ui",
+    "utils"
+  ],
+  "total_files_seen": 79,
+  "files_sample": [
+    ".agent/CONTRACTS.md",
+    ".agent/DIFFLOG.md",
+    ".agent/STATE.md",
+    ".codex/project-inventory.json",
+    ".gitignore",
+    ".llm/rules.md",
+    "2014 B31.3 (CS).csv",
+    "2014 B31.3 (SS).csv",
+    "Equip_CMLTable WORKING.xlsm",
+    "Prompt.docx",
+    "Prompt.md",
+    "README.md",
+    "SystemNameExplained.PNG",
+    "UT Sheet.png",
+    "WorkingSheetSnip.PNG",
+    "app/__init__.py",
+    "app/config.py",
+    "app/constants.py",
+    "docs/00_BLUEPRINT.md",
+    "docs/AMINE-034/AMINE-034 CAD-Model.pdf",
+    "docs/AMINE-034/AMINE-034 CAD.bak",
+    "docs/AMINE-034/AMINE-034 CAD.dwg",
+    "docs/AMINE-034/AMINE-034_ISO.pdf",
+    "docs/AMINE-034/AMINE-034_VT.xlsx",
+    "docs/AMINE-034/Amine-034 UTT.xlsx",
+    "docs/AMINE-034/Overview 1.jpg",
+    "docs/AMINE-034/Overview 2.jpg",
+    "docs/AMINE-034/Overview 3.jpg",
+    "docs/CAD_PDF Design Code.PNG",
+    "docs/DB_CONTRACT.md",
+    "docs/Equip_CML_Import.csv",
+    "docs/INTERFACE_MAP.md",
+    "docs/InfoPage.PNG",
+    "docs/InfoPageData.PNG",
+    "docs/SAFE_CHANGELOG.md",
+    "docs/adr/0001-architecture-baseline.md",
+    "docs/equip_Template.xlsm",
+    "docs/snapshots/README.md",
+    "docs/snapshots/db.txt",
+    "docs/snapshots/deps.txt",
+    "docs/snapshots/entrypoints.txt",
+    "docs/snapshots/env.txt",
+    "docs/snapshots/rehydrate_bundle.txt",
+    "docs/snapshots/tests.txt",
+    "docs/snapshots/tree.txt",
+    "equip_CML_Import.csv",
+    "main.py",
+    "models/__init__.py",
+    "models/cml_row.py",
+    "repo_dirs.txt",
+    "repo_files.txt",
+    "requirements.txt",
+    "scratchpad.md",
+    "services/__init__.py",
+    "services/aggregator.py",
+    "services/csv_exporter.py",
+    "services/entity_info.py",
+    "services/excel_parser.py",
+    "services/excel_writer.py",
+    "services/file_discovery.py",
+    "services/session.py",
+    "services/thickness_activity.py",
+    "services/transformer.py",
+    "services/worker.py",
+    "tools/blueprint/change_request_template.md",
+    "tools/blueprint/rehydrate_prompt.md",
+    "tools/blueprint/rehydrate_prompt.txt",
+    "tools/blueprint/snapshot.py",
+    "tools/blueprint/verify_before_merge.md",
+    "tools/blueprint_installer/README.md",
+    "tools/blueprint_installer/install.py",
+    "ui/__init__.py",
+    "ui/controls_bar.py",
+    "ui/dialogs.py",
+    "ui/file_list_panel.py",
+    "ui/main_window.py",
+    "ui/preview_panel.py",
+    "utils/__init__.py",
+    "utils/helpers.py"
+  ],
+  "top_extensions": [
+    {
+      "extension": ".py",
+      "count": 27
+    },
+    {
+      "extension": ".md",
+      "count": 17
+    },
+    {
+      "extension": ".txt",
+      "count": 11
+    },
+    {
+      "extension": ".png",
+      "count": 6
+    },
+    {
+      "extension": ".csv",
+      "count": 4
+    },
+    {
+      "extension": ".jpg",
+      "count": 3
+    },
+    {
+      "extension": ".xlsm",
+      "count": 2
+    },
+    {
+      "extension": ".pdf",
+      "count": 2
+    },
+    {
+      "extension": ".xlsx",
+      "count": 2
+    },
+    {
+      "extension": "<no_ext>",
+      "count": 1
+    },
+    {
+      "extension": ".docx",
+      "count": 1
+    },
+    {
+      "extension": ".json",
+      "count": 1
+    },
+    {
+      "extension": ".bak",
+      "count": 1
+    },
+    {
+      "extension": ".dwg",
+      "count": 1
+    }
+  ],
+  "important_files": [
+    "README.md",
+    "docs/snapshots/README.md",
+    "main.py",
+    "requirements.txt",
+    "tools/blueprint_installer/README.md"
+  ],
+  "entrypoint_candidates": [
+    "main.py"
+  ],
+  "top_directories": [
+    {
+      "path": "docs",
+      "file_count": 27
+    },
+    {
+      "path": "services",
+      "file_count": 11
+    },
+    {
+      "path": "docs/AMINE-034",
+      "file_count": 9
+    },
+    {
+      "path": "docs/snapshots",
+      "file_count": 8
+    },
+    {
+      "path": "tools",
+      "file_count": 7
+    },
+    {
+      "path": "ui",
+      "file_count": 6
+    },
+    {
+      "path": "tools/blueprint",
+      "file_count": 5
+    },
+    {
+      "path": ".agent",
+      "file_count": 3
+    },
+    {
+      "path": "app",
+      "file_count": 3
+    },
+    {
+      "path": "models",
+      "file_count": 2
+    },
+    {
+      "path": "tools/blueprint_installer",
+      "file_count": 2
+    },
+    {
+      "path": "utils",
+      "file_count": 2
+    },
+    {
+      "path": ".codex",
+      "file_count": 1
+    },
+    {
+      "path": ".llm",
+      "file_count": 1
+    },
+    {
+      "path": "docs/adr",
+      "file_count": 1
+    }
+  ]
+}

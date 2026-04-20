@@ -1,0 +1,18 @@
+{
+  "app_name": "File Scout",
+  "version": "3.2",
+  "features": {
+    "system_tray": true,
+    "toast_notifications": true,
+    "context_menu": true,
+    "enhanced_preview": true
+  },
+  "file_types": [
+    "text",
+    "code",
+    "pdf",
+    "excel",
+    "word",
+    "image"
+  ]
+}

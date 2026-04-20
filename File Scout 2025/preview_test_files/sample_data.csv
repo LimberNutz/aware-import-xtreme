@@ -1,0 +1,16 @@
+ID,Name,Email,Department,Salary,Start_Date,Active
+1,Alice Johnson,alice@company.com,Engineering,75000,2022-01-15,TRUE
+2,Bob Smith,bob@company.com,Marketing,65000,2021-03-20,TRUE
+3,Carol Davis,carol@company.com,Sales,58000,2022-06-10,TRUE
+4,David Wilson,david@company.com,Engineering,82000,2020-11-05,TRUE
+5,Eva Brown,eva@company.com,HR,62000,2023-02-28,TRUE
+6,Frank Miller,frank@company.com,Finance,78000,2021-07-12,TRUE
+7,Grace Taylor,grace@company.com,Engineering,95000,2012-04-08,TRUE
+8,Henry Anderson,henry@company.com,Marketing,68000,2023-01-20,FALSE
+9,Ivy Thomas,ivy@company.com,Sales,72000,2022-09-15,TRUE
+10,Jack Jackson,jack@company.com,IT,85000,2021-12-01,TRUE
+11,Kate White,kate@company.com,HR,71000,2023-03-18,TRUE
+12,Liam Harris,liam@company.com,Finance,88000,2020-08-22,TRUE
+13,Mia Martin,mia@company.com,Engineering,99000,2011-02-14,TRUE
+14,Noah Thompson,noah@company.com,Marketing,73000,2022-11-30,FALSE
+15,Olivia Garcia,olivia@company.com,Sales,79000,2021-05-17,TRUE

@@ -1,0 +1,18 @@
+# Data Flow Hints (auto-detected)
+
+## Main entry imports
+- main -> app
+- main -> app.cli
+- main -> app.pipeline
+- main -> app.pipeline.run_job
+
+## Most referenced local modules
+- app (imported by 2 modules)
+- app.cli (imported by 1 module)
+- app.pipeline.run_job (imported by 1 module)
+- app.pipeline (imported by 1 module)
+- app.domain.formatters (imported by 1 module)
+- app.domain (imported by 1 module)
+- app.parsers.csv_parser (imported by 1 module)
+- app.parsers (imported by 1 module)
+

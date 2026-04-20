@@ -1,0 +1,5 @@
+# How This App Works (synthesized)
+
+- Desktop GUI application (PySide6/Qt) — user interacts via windowed interface
+- Primary output: CSV files — formatted for downstream import systems
+- Persistence: QSettings (Windows Registry) for configuration

@@ -1,0 +1,11 @@
+Order_ID	Customer	Product	Quantity	Total	Date
+ORD001	John Doe	Wireless Mouse	2	$51.98	2023-10-01
+ORD002	Jane Smith	USB Keyboard	1	$45.50	2023-10-02
+ORD003	Bob Johnson	Laptop Stand	1	$35.00	2023-09-20
+ORD004	Alice Brown	Webcam HD	1	$79.99	2023-10-01
+ORD005	Charlie Davis	Desk Lamp	2	$111.90	2023-08-15
+ORD006	Eva Wilson	External HDD	1	$99.99	2023-10-10
+ORD007	Frank Miller	Bluetooth Speaker	3	$195.00	2023-09-25
+ORD008	Grace Taylor	Phone Charger	2	$39.98	2023-10-12
+ORD009	Henry Anderson	Cable Organizer	4	$398.00	2023-07-30
+ORD010	Ivy Thomas	Monitor Arm	1	$149.00	2023-06-18

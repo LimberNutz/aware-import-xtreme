@@ -1,0 +1,48 @@
+ACAD Fixer/
+├── README.md
+├── main.py
+├── requirements.txt
+├── app/
+│   ├── __init__.py
+│   ├── cli.py
+│   ├── cad/
+│   │   ├── __init__.py
+│   │   ├── dxf_editor.py
+│   │   └── oda.py
+│   ├── domain/
+│   │   ├── __init__.py
+│   │   └── formatters.py
+│   ├── parsers/
+│   │   ├── __init__.py
+│   │   └── csv_parser.py
+│   ├── pdf/
+│   │   ├── __init__.py
+│   │   └── pdf_editor.py
+│   └── pipeline/
+│       ├── __init__.py
+│       └── run_job.py
+├── docs/
+│   ├── 00_BLUEPRINT.md
+│   ├── DB_CONTRACT.md
+│   ├── INTERFACE_MAP.md
+│   ├── SAFE_CHANGELOG.md
+│   ├── adr/
+│   │   └── 0001-architecture-baseline.md
+│   └── snapshots/
+│       ├── README.md
+│       ├── api_surface.txt
+│       ├── architecture.txt
+│       ├── config_patterns.txt
+│       ├── data_flow.txt
+│       ├── db.txt
+│       ├── deps.txt
+│       ├── docs_index.txt
+│       ├── entrypoints.txt
+│       ├── env.txt
+│       ├── how_it_works.txt
+│       ├── integrations.txt
+│       ├── rehydrate_bundle.txt
+│       └── tests.txt
+└── tools/
+    └── blueprint/
+        └── snapshot.py

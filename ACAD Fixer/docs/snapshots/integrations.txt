@@ -1,0 +1,10 @@
+# External Integrations (auto-detected)
+
+- CSV read/write: app/cli.py, app/parsers/csv_parser.py, app/pipeline/run_job.py, tools/blueprint/snapshot.py
+- Excel workbook I/O: tools/blueprint/snapshot.py
+- Fuzzy matching: tools/blueprint/snapshot.py
+- JSON session/config persistence: tools/blueprint/snapshot.py
+- PDF parsing: tools/blueprint/snapshot.py
+- Safe file deletion: tools/blueprint/snapshot.py
+- Windows Registry persistence via QSettings: tools/blueprint/snapshot.py
+- Windows shell integration: tools/blueprint/snapshot.py

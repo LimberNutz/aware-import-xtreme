@@ -1,0 +1,3 @@
+# Configuration Patterns (auto-detected)
+
+No notable configuration patterns detected.

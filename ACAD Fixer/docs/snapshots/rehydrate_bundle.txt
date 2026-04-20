@@ -1,0 +1,96 @@
+# Rehydration Bundle — ACAD Fixer
+# Generated: 2026-04-17T03:09:51Z
+# Regenerate: python tools/blueprint/snapshot.py
+
+## Stack
+  - Python (pip)
+
+## Architecture
+  - Blueprint documentation present: docs/00_BLUEPRINT.md
+  - app/: application config/constants
+  - docs/: blueprints, contracts, and reference docs
+  - tools/: developer tooling / project utilities
+
+## How This App Works
+  - Desktop GUI application (PySide6/Qt) — user interacts via windowed interface
+  - Primary output: CSV files — formatted for downstream import systems
+  - Persistence: QSettings (Windows Registry) for configuration
+
+## Key Directories
+  app/  (2 files)
+  docs/  (4 files)
+  tools/  (0 files)
+
+## Entry Points
+  GUI Entry: python main.py
+  Guard: if __name__ == '__main__'
+
+## Dependencies (summary)
+  ezdxf>=1.1.0
+  pymupdf>=1.23.0
+  pyyaml>=6.0.1
+
+## API Surface
+  - app/cli.py: functions=setup_parser
+
+## Config / Persistence
+  No notable configuration patterns detected
+
+## Integrations
+  - CSV read/write: app/cli.py, app/parsers/csv_parser.py, app/pipeline/run_job.py, tools/blueprint/snapshot.py
+  - Excel workbook I/O: tools/blueprint/snapshot.py
+  - Fuzzy matching: tools/blueprint/snapshot.py
+  - JSON session/config persistence: tools/blueprint/snapshot.py
+  - PDF parsing: tools/blueprint/snapshot.py
+  - Safe file deletion: tools/blueprint/snapshot.py
+
+## Test Commands
+  No test runner detected
+  Recommended: python -m pytest tests/
+
+## DB / Migrations
+  No database or ORM detected.
+  This project uses in-memory data with optional JSON session files.
+
+## Data Flow Hints
+  - main -> app
+  - main -> app.cli
+  - main -> app.pipeline
+  - main -> app.pipeline.run_job
+  - app (imported by 2 modules)
+  - app.cli (imported by 1 module)
+  - app.pipeline.run_job (imported by 1 module)
+  - app.pipeline (imported by 1 module)
+
+## Load These Files First
+
+Priority 1 (always load):
+  docs/00_BLUEPRINT.md  [ok]
+  .llm/rules.md  [MISSING]
+
+Priority 2 (load for non-trivial changes):
+  docs/INTERFACE_MAP.md  [ok]
+  docs/SAFE_CHANGELOG.md  [ok]
+  docs/DB_CONTRACT.md  [ok]
+  tools/blueprint/verify_before_merge.md  [MISSING]
+
+Priority 3 (reference as needed):
+  docs/snapshots/tree.txt  [MISSING]
+  docs/snapshots/deps.txt  [ok]
+  docs/snapshots/entrypoints.txt  [ok]
+  docs/adr/0001-architecture-baseline.md  [ok]
+  tools/blueprint/change_request_template.md  [MISSING]
+
+## Env Files
+  No .env files detected.
+  This project uses QSettings (Windows Registry) for configuration persistence.
+
+## Documentation Index
+  - README.md: CML Drawing Title Block Automator
+  - docs/00_BLUEPRINT.md: Project Blueprint
+  - docs/DB_CONTRACT.md: Database Contract
+  - docs/INTERFACE_MAP.md: Interface Map
+  - docs/SAFE_CHANGELOG.md: Safe Changelog
+  - docs/adr/0001-architecture-baseline.md: ADR-0001: Architecture Baseline
+  - docs/snapshots/README.md: Snapshots
+

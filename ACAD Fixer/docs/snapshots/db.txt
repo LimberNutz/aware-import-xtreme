@@ -1,0 +1,4 @@
+# Database Detection (auto-detected)
+
+No database or ORM detected.
+This project uses in-memory data with optional JSON session files.

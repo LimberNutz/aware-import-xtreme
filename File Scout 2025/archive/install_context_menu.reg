@@ -1,0 +1,37 @@
+Windows Registry Editor Version 5.00
+
+; File Scout - Windows Explorer Context Menu Integration
+; Double-click this file to add "File Scout Here" to folder context menus
+; NOTE: Update the path to FileScout.exe in the command lines below before running
+
+; Right-click on folder background
+[HKEY_CLASSES_ROOT\Directory\Background\shell\FileScoutHere]
+@="File Scout Here"
+"Icon"="C:\\Path\\To\\FileScout.exe,0"
+
+[HKEY_CLASSES_ROOT\Directory\Background\shell\FileScoutHere\command]
+@="\"C:\\Path\\To\\FileScout.exe\" --dir \"%V\""
+
+; Right-click on folder itself
+[HKEY_CLASSES_ROOT\Directory\shell\FileScoutHere]
+@="File Scout Here"
+"Icon"="C:\\Path\\To\\FileScout.exe,0"
+
+[HKEY_CLASSES_ROOT\Directory\shell\FileScoutHere\command]
+@="\"C:\\Path\\To\\FileScout.exe\" --dir \"%1\""
+
+; Scan for Duplicates submenu
+[HKEY_CLASSES_ROOT\Directory\shell\FileScoutDuplicates]
+@="Find Duplicates with File Scout"
+"Icon"="C:\\Path\\To\\FileScout.exe,0"
+
+[HKEY_CLASSES_ROOT\Directory\shell\FileScoutDuplicates\command]
+@="\"C:\\Path\\To\\FileScout.exe\" --dir \"%1\" --duplicates"
+
+; Right-click on folder background - duplicates
+[HKEY_CLASSES_ROOT\Directory\Background\shell\FileScoutDuplicates]
+@="Find Duplicates with File Scout"
+"Icon"="C:\\Path\\To\\FileScout.exe,0"
+
+[HKEY_CLASSES_ROOT\Directory\Background\shell\FileScoutDuplicates\command]
+@="\"C:\\Path\\To\\FileScout.exe\" --dir \"%V\" --duplicates"

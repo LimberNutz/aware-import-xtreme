@@ -1,0 +1,9 @@
+# ACAD Fixer Configuration
+# NOTE: Use single quotes for Windows paths to avoid YAML escape issues
+
+oda_exe: 'C:\Program Files\ODA\ODAFileConverter 27.1.0\ODAFileConverter.exe'
+cad_root: 'C:\Users\cherr\Desktop\1. Working Projects\Golden Grain\CAD'
+default_csv: 'C:\Users\cherr\Desktop\1. Working Projects\Golden Grain\Equip_CML_Import_04-14-2026.csv'
+work_root: 'C:\temp'
+oda_version: 'ACAD2018'
+pdf_rotation: 270

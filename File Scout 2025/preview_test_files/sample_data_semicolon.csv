@@ -1,0 +1,11 @@
+Product_ID;Product_Name;Category;Price;Stock;Last_Updated
+P001;Wireless Mouse;Electronics;25.99;120;2023-10-15
+P002;USB Keyboard;Electronics;45.50;85;2023-10-16
+P003;Laptop Stand;Accessories;35.00;45;2023-09-20
+P004;Webcam HD;Electronics;79.99;30;2023-10-01
+P005;Desk Lamp;Furniture;55.95;25;2023-08-15
+P006;External HDD;Electronics;99.99;18;2023-10-10
+P007;Bluetooth Speaker;Electronics;65.00;40;2023-09-25
+P008;Phone Charger;Electronics;19.99;95;2023-10-12
+P009;Cable Organizer;Accessories;99.50;60;2023-07-30
+P010;Monitor Arm;Furniture;149.00;12;2023-06-18

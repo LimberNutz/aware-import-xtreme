@@ -1,0 +1,26 @@
+# Enhanced File Preview Dependencies for File Scout 3.2
+# Install with: pip install -r preview_requirements.txt
+
+# Core dependencies (already installed with File Scout)
+# PyQt6
+# openpyxl
+
+# Syntax highlighting for code files
+Pygments>=2.16.0
+
+# PDF document preview
+PyMuPDF>=1.23.0
+
+# Microsoft Office documents
+python-docx>=0.8.11
+python-pptx>=0.6.21
+
+# Audio file metadata
+mutagen>=1.47.0
+
+# Optional: For enhanced video metadata (requires ffmpeg)
+# ffmpeg-python>=0.2.0
+
+# Optional: For archive preview beyond ZIP
+# rarfile>=4.0
+# py7zr>=0.21.0

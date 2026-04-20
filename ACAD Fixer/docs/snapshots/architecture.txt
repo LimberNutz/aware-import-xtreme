@@ -1,0 +1,8 @@
+# Architecture Detection (auto-detected)
+
+- Blueprint documentation present: docs/00_BLUEPRINT.md
+
+## Directory roles
+- app/: application config/constants
+- docs/: blueprints, contracts, and reference docs
+- tools/: developer tooling / project utilities

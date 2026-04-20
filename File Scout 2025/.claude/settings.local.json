@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"import py_compile; py_compile.compile\\(''File Scout 3.2.py'', doraise=True\\)\")",
+      "Bash(python -c \":*)",
+      "Bash(python -c \"import py_compile; py_compile.compile\\('File Scout 3.2.py', doraise=True\\); print\\('Monolith OK'\\)\")",
+      "Bash(python -c \"import py_compile; py_compile.compile\\('ui/dialogs/profile_manager.py', doraise=True\\); print\\('Module OK'\\)\")",
+      "Bash(python -c \"from ui.dialogs.profile_manager import ProfileManagerDialog; print\\('Import OK'\\)\")"
+    ]
+  }
+}

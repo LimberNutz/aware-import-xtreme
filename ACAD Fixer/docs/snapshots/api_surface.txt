@@ -1,0 +1,5 @@
+# API Surface (auto-detected)
+
+## app/
+- app/cli.py: functions=setup_parser
+

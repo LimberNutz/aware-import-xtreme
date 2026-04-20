@@ -1,0 +1,12 @@
+Windows Registry Editor Version 5.00
+
+; File Scout - Remove Windows Explorer Context Menu Integration
+; Double-click this file to remove "File Scout Here" from context menus
+
+; Remove from folder background
+[-HKEY_CLASSES_ROOT\Directory\Background\shell\FileScoutHere]
+[-HKEY_CLASSES_ROOT\Directory\Background\shell\FileScoutDuplicates]
+
+; Remove from folder
+[-HKEY_CLASSES_ROOT\Directory\shell\FileScoutHere]
+[-HKEY_CLASSES_ROOT\Directory\shell\FileScoutDuplicates]

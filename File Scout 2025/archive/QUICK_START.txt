@@ -1,0 +1,129 @@
+================================================================================
+                    FILE SCOUT 3.2 - PHASE 1 QUICK START
+================================================================================
+
+NEW FEATURES:
+-------------
+✓ System Tray Icon - Always accessible from taskbar
+✓ Toast Notifications - Get notified when searches complete  
+✓ Context Menu Integration - Right-click folders in Explorer
+✓ Desktop Shortcuts - Pre-configured searches
+
+================================================================================
+
+SYSTEM TRAY ICON:
+-----------------
+The app now runs in your system tray!
+
+• Close window = Minimize to tray (app keeps running)
+• Double-click tray icon = Show/hide window
+• Right-click tray icon = Quick actions menu
+• Ctrl+H = Hide to tray
+• To FULLY EXIT: Right-click tray icon → Exit
+
+Tray Menu Features:
+  🔍 Quick Search
+  🔄 Find Duplicates  
+  🗂️ Smart Sort
+  📋 Recent Profiles (your last 10 saved profiles)
+  👁️ Show/Hide Window
+  🚪 Exit
+
+================================================================================
+
+CONTEXT MENU (Windows Explorer):
+--------------------------------
+RIGHT-CLICK ANY FOLDER and see:
+  • "File Scout Here" - Search this folder
+  • "Find Duplicates with File Scout" - Find duplicate files
+
+SETUP (One-time):
+1. Open: install_context_menu.reg in Notepad
+2. Replace: C:\Path\To\FileScout.exe with YOUR actual path
+   Example: C:\Users\YourName\Desktop\FileScout.exe
+3. Save and double-click the .reg file
+4. Click Yes to confirm
+
+TO REMOVE: Double-click uninstall_context_menu.reg
+
+================================================================================
+
+DESKTOP SHORTCUTS:
+------------------
+Run: create_desktop_shortcuts.bat
+
+This creates 5 handy shortcuts:
+  📁 Find Duplicates - Scans your user folder
+  📏 Large Files - Files > 100MB on C: drive
+  🕒 Recent Files - Modified in last 7 days
+  🖼️ Images - All image files
+  📄 Documents - All document files
+
+CUSTOM SHORTCUTS:
+Create your own! Right-click desktop → New → Shortcut
+  "FileScout.exe" --dir "C:\Folder" --exts "pdf,docx" --min-size 1024
+
+================================================================================
+
+TOAST NOTIFICATIONS:
+--------------------
+You'll get desktop notifications for:
+  ✓ Search Complete (with file count)
+  ✓ Profile Saved/Loaded
+  ✓ Minimized to tray reminder
+
+================================================================================
+
+BUILDING THE EXE:
+-----------------
+To package as standalone .exe:
+
+  pip install pyinstaller
+  pyinstaller --name "FileScout" --windowed --onefile "File Scout 3.2.py"
+  
+  Output: dist\FileScout.exe
+
+After building:
+  1. Copy FileScout.exe to desired location
+  2. Update paths in install_context_menu.reg
+  3. Run create_desktop_shortcuts.bat
+
+================================================================================
+
+KEYBOARD SHORTCUTS:
+-------------------
+Ctrl+H ........ Hide to tray
+Ctrl++ ........ Zoom in
+Ctrl+- ........ Zoom out  
+Ctrl+0 ........ Reset zoom
+
+================================================================================
+
+QUICK TIPS:
+-----------
+• Save your common searches as Profiles (File menu → Save Profile)
+• Access profiles instantly from tray menu
+• Start searches and minimize - get notified when done
+• Use context menu for quick folder scans
+• Run at startup: Put shortcut in shell:startup folder
+
+================================================================================
+
+TROUBLESHOOTING:
+----------------
+Tray icon missing?
+  → Check Windows tray settings (right-click taskbar)
+
+Context menu not working?
+  → Check path has double backslashes: C:\\Users\\...
+  → Run .reg file as Administrator
+
+Notifications not showing?
+  → Check Windows notification settings for File Scout
+
+================================================================================
+
+For detailed documentation, see: PHASE1_FEATURES_README.md
+
+File Scout v3.2 - Happy Searching! 🎯
+================================================================================

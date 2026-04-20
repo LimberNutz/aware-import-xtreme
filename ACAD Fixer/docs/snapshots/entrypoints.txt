@@ -1,0 +1,5 @@
+# Entry Points (auto-detected)
+
+GUI Entry: python main.py
+  Guard: if __name__ == '__main__'
+

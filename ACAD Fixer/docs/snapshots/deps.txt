@@ -1,0 +1,7 @@
+# Dependencies (auto-detected)
+
+## requirements.txt
+  ezdxf>=1.1.0
+  pymupdf>=1.23.0
+  pyyaml>=6.0.1
+

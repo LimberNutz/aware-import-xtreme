@@ -1,0 +1,9 @@
+# Documentation Index (auto-detected)
+
+- README.md: CML Drawing Title Block Automator
+- docs/00_BLUEPRINT.md: Project Blueprint
+- docs/DB_CONTRACT.md: Database Contract
+- docs/INTERFACE_MAP.md: Interface Map
+- docs/SAFE_CHANGELOG.md: Safe Changelog
+- docs/adr/0001-architecture-baseline.md: ADR-0001: Architecture Baseline
+- docs/snapshots/README.md: Snapshots

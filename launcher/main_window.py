@@ -1,6 +1,11 @@
+import os
+import subprocess
+import sys
+
+from PySide6.QtCore import QSettings, QByteArray
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QGridLayout,
-    QLabel, QTextEdit, QGroupBox, QStatusBar,
+    QLabel, QTextEdit, QGroupBox, QStatusBar, QMessageBox,
 )
 from PySide6.QtGui import QFont
 
@@ -8,6 +13,9 @@ from launcher.tool_registry import get_tools
 from launcher.process_manager import ProcessManager
 from launcher.tool_card import ToolCard
 from launcher.design_doc_dialog import DesignDocDialog
+
+
+_LOG_MAX_LINES = 500
 
 
 class LauncherWindow(QMainWindow):
@@ -18,8 +26,10 @@ class LauncherWindow(QMainWindow):
         self._tools: list[dict]    = get_tools()
         self._cards: dict[str, ToolCard] = {}
         self._pm = ProcessManager(self)
+        self._settings = QSettings("AwareToolbox", "Launcher")
         self._setup_ui()
         self._connect_signals()
+        self._restore_geometry()
 
     # ------------------------------------------------------------------
     # UI build
@@ -52,6 +62,7 @@ class LauncherWindow(QMainWindow):
             card.launch_clicked.connect(self._on_launch)
             card.stop_clicked.connect(self._on_stop)
             card.dialog_requested.connect(self._on_dialog)
+            card.open_folder_requested.connect(self._on_open_folder)
             self._cards[tool["id"]] = card
             grid.addWidget(card, i // 2, i % 2)
         layout.addLayout(grid, 1)
@@ -100,6 +111,22 @@ class LauncherWindow(QMainWindow):
         dlg  = DesignDocDialog(tool["cwd"], self)
         dlg.exec()
 
+    def _on_open_folder(self, tool_id: str):
+        tool = self._tool_by_id(tool_id)
+        cwd  = tool["cwd"]
+        if not os.path.isdir(cwd):
+            QMessageBox.warning(self, "Folder Not Found", f"Could not find:\n{cwd}")
+            return
+        try:
+            if sys.platform == "win32":
+                os.startfile(cwd)  # noqa: S606
+            elif sys.platform == "darwin":
+                subprocess.Popen(["open", cwd])
+            else:
+                subprocess.Popen(["xdg-open", cwd])
+        except Exception as exc:
+            QMessageBox.warning(self, "Open Folder Failed", str(exc))
+
     def _on_status_changed(self, tool_id: str, status: str):
         card = self._cards.get(tool_id)
         if card:
@@ -118,5 +145,32 @@ class LauncherWindow(QMainWindow):
 
     def _append_log(self, line: str):
         self._log.append(line)
+        # Cap scrollback to prevent unbounded memory growth over a long session.
+        doc = self._log.document()
+        if doc.blockCount() > _LOG_MAX_LINES:
+            cursor = self._log.textCursor()
+            cursor.movePosition(cursor.MoveOperation.Start)
+            for _ in range(doc.blockCount() - _LOG_MAX_LINES):
+                cursor.select(cursor.SelectionType.BlockUnderCursor)
+                cursor.removeSelectedText()
+                cursor.deleteChar()  # delete trailing newline left behind
         sb = self._log.verticalScrollBar()
         sb.setValue(sb.maximum())
+
+    # ------------------------------------------------------------------
+    # Geometry persistence + graceful shutdown
+    # ------------------------------------------------------------------
+
+    def _restore_geometry(self):
+        geom = self._settings.value("geometry", QByteArray())
+        if isinstance(geom, QByteArray) and not geom.isEmpty():
+            self.restoreGeometry(geom)
+
+    def _save_geometry(self):
+        self._settings.setValue("geometry", self.saveGeometry())
+
+    def closeEvent(self, event):
+        """Persist window geometry and terminate any running tools."""
+        self._save_geometry()
+        self._pm.stop_all()
+        super().closeEvent(event)

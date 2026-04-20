@@ -1,6 +1,6 @@
-from PySide6.QtWidgets import QFrame, QVBoxLayout, QHBoxLayout, QLabel, QPushButton
-from PySide6.QtCore import Signal
-from PySide6.QtGui import QFont
+from PySide6.QtWidgets import QFrame, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QMenu
+from PySide6.QtCore import Signal, Qt
+from PySide6.QtGui import QFont, QAction
 
 
 _BORDER_NORMAL = "#3e3e42"
@@ -47,9 +47,10 @@ def _card_sheet(border: str) -> str:
 
 
 class ToolCard(QFrame):
-    launch_clicked   = Signal(str)   # tool_id
-    stop_clicked     = Signal(str)   # tool_id
-    dialog_requested = Signal(str)   # tool_id
+    launch_clicked        = Signal(str)   # tool_id
+    stop_clicked          = Signal(str)   # tool_id
+    dialog_requested      = Signal(str)   # tool_id
+    open_folder_requested = Signal(str)   # tool_id
 
     def __init__(self, tool: dict, parent=None):
         super().__init__(parent)
@@ -58,6 +59,8 @@ class ToolCard(QFrame):
         self.setObjectName("tool_card")
         self.setStyleSheet(_card_sheet(_BORDER_NORMAL))
         self.setMinimumSize(300, 250)
+        self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.customContextMenuRequested.connect(self._show_context_menu)
         self._build_ui()
 
     # ------------------------------------------------------------------
@@ -140,6 +143,35 @@ class ToolCard(QFrame):
         )
         self._btn.setText(_BTN_TEXT.get(status, _BTN_TEXT["stopped"]))
         self._btn.setStyleSheet(_BTN_STYLE.get(status, _BTN_STYLE["stopped"]))
+
+    # ------------------------------------------------------------------
+    # Context menu
+    # ------------------------------------------------------------------
+
+    def _show_context_menu(self, pos):
+        tid  = self._tool["id"]
+        mode = self._tool.get("launch_mode", "subprocess")
+        menu = QMenu(self)
+
+        if self._status == "running":
+            act_stop = QAction("Stop", self)
+            act_stop.triggered.connect(lambda: self.stop_clicked.emit(tid))
+            menu.addAction(act_stop)
+        elif mode == "dialog":
+            act_open = QAction("Open\u2026", self)
+            act_open.triggered.connect(lambda: self.dialog_requested.emit(tid))
+            menu.addAction(act_open)
+        else:
+            act_launch = QAction("Launch", self)
+            act_launch.triggered.connect(lambda: self.launch_clicked.emit(tid))
+            menu.addAction(act_launch)
+
+        menu.addSeparator()
+        act_folder = QAction("Open Tool Folder in Explorer", self)
+        act_folder.triggered.connect(lambda: self.open_folder_requested.emit(tid))
+        menu.addAction(act_folder)
+
+        menu.exec(self.mapToGlobal(pos))
 
     # ------------------------------------------------------------------
     # Hover effect — border colour only

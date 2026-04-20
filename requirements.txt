@@ -1,0 +1,4 @@
+# Aware Toolbox launcher
+# Each tool has its own requirements.txt in its subfolder; this file only
+# covers what the launcher itself needs.
+PySide6>=6.6.0

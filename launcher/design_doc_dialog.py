@@ -115,6 +115,28 @@ class DesignDocWorker(QThread):
 # Dialog
 # ---------------------------------------------------------------------------
 
+_REQ_GROUP_STYLE = (
+    "QGroupBox { color: #ff8a65; border: 1px solid #ff8a65; border-radius: 3px; "
+    "margin-top: 8px; padding-top: 4px; font-size: 11px; font-weight: bold; }"
+    "QGroupBox::title { subcontrol-origin: margin; left: 8px; padding: 0 4px; }"
+)
+_HINT_STYLE  = "color: #7a7a7a; font-size: 11px; font-style: italic; border: none;"
+_REQ_LABEL   = "color: #ff8a65; border: none;"
+
+
+def _req_label(text: str) -> "QLabel":
+    lbl = QLabel(text)
+    lbl.setStyleSheet(_REQ_LABEL)
+    return lbl
+
+
+def _hint(text: str) -> "QLabel":
+    lbl = QLabel(text)
+    lbl.setStyleSheet(_HINT_STYLE)
+    lbl.setWordWrap(True)
+    return lbl
+
+
 class DesignDocDialog(QDialog):
     def __init__(self, cwd: str, parent=None):
         super().__init__(parent)
@@ -122,7 +144,7 @@ class DesignDocDialog(QDialog):
         self._worker  = None
         self._builder = None
         self.setWindowTitle("Design Doc Importer")
-        self.resize(760, 660)
+        self.resize(820, 760)
         self._init_ui()
         self._load_default_config()
 
@@ -132,91 +154,166 @@ class DesignDocDialog(QDialog):
 
     def _init_ui(self):
         root = QVBoxLayout(self)
-        root.setSpacing(10)
+        root.setSpacing(8)
+        root.setContentsMargins(14, 14, 14, 10)
 
-        # --- Config file row ---
-        cfg_grp    = QGroupBox("Config File")
+        # ── Config File row ──────────────────────────────────────────────
+        cfg_grp    = QGroupBox("Config File  —  load or save a job_config.txt")
         cfg_layout = QHBoxLayout(cfg_grp)
         self._cfg_edit = QLineEdit()
-        self._cfg_edit.setPlaceholderText("Path to job_config.txt  (optional)")
+        self._cfg_edit.setPlaceholderText(
+            "Path to an existing job_config.txt  (leave blank to build manually below)"
+        )
         cfg_layout.addWidget(self._cfg_edit)
         browse_cfg = QPushButton("Browse…")
-        browse_cfg.clicked.connect(lambda: self._browse_file(
-            self._cfg_edit, "Config Files (*.txt);;All Files (*)"
-        ))
+        browse_cfg.clicked.connect(
+            lambda: self._browse_file(self._cfg_edit, "Config Files (*.txt);;All Files (*)")
+        )
         cfg_layout.addWidget(browse_cfg)
         load_btn = QPushButton("Load")
+        load_btn.setToolTip("Populate all fields below from the selected config file")
         load_btn.clicked.connect(lambda: self._load_config_file())
         cfg_layout.addWidget(load_btn)
-        save_btn = QPushButton("Save")
+        save_btn = QPushButton("Save Config")
+        save_btn.setToolTip("Write the current field values to a job_config.txt")
         save_btn.clicked.connect(lambda: self._save_config_file())
         cfg_layout.addWidget(save_btn)
+        new_btn = QPushButton("New / Clear")
+        new_btn.setToolTip("Clear all fields to start a fresh config")
+        new_btn.clicked.connect(self._clear_fields)
+        cfg_layout.addWidget(new_btn)
         root.addWidget(cfg_grp)
 
-        # --- Form fields ---
-        fields_grp = QGroupBox("Configuration")
-        form       = QFormLayout(fields_grp)
-        form.setRowWrapPolicy(QFormLayout.RowWrapPolicy.DontWrapRows)
-        form.setFieldGrowthPolicy(QFormLayout.FieldGrowthPolicy.ExpandingFieldsGrow)
-        form.setSpacing(8)
+        # ── REQUIRED ─────────────────────────────────────────────────────
+        req_grp  = QGroupBox("Required  ✱")
+        req_grp.setStyleSheet(_REQ_GROUP_STYLE)
+        req_form = QFormLayout(req_grp)
+        req_form.setRowWrapPolicy(QFormLayout.RowWrapPolicy.DontWrapRows)
+        req_form.setFieldGrowthPolicy(QFormLayout.FieldGrowthPolicy.ExpandingFieldsGrow)
+        req_form.setSpacing(5)
+        req_form.setContentsMargins(10, 10, 10, 10)
 
         # CAD Root Dir
         root_row = QHBoxLayout()
         self._root_edit = QLineEdit()
-        self._root_edit.setPlaceholderText("Root CAD folder containing .dwg files")
+        self._root_edit.setPlaceholderText(
+            r"e.g.  C:\Projects\GoldenGrain\CAD"
+        )
         root_row.addWidget(self._root_edit)
         root_browse = QPushButton("Browse…")
         root_browse.clicked.connect(lambda: self._browse_dir(self._root_edit))
         root_row.addWidget(root_browse)
-        form.addRow("CAD Root Dir:", root_row)
+        req_form.addRow(_req_label("CAD Root Dir  ✱"), root_row)
+        req_form.addRow(
+            "",
+            _hint(
+                "Point this at the folder that contains your .dwg files — NOT the "
+                "PDF subfolder.  PDFs in subfolders (e.g. CAD PDF\\) are found automatically."
+            ),
+        )
 
         # System Path Base
         self._syspath_edit = QLineEdit()
-        self._syspath_edit.setPlaceholderText("e.g.  XCEL > Site > Unit > Piping >")
-        form.addRow("System Path Base:", self._syspath_edit)
+        self._syspath_edit.setPlaceholderText(
+            "e.g.  XCEL > Golden Grain Energy > Mason City, IA > Unit > Piping >"
+        )
+        req_form.addRow(_req_label("System Path Base  ✱"), self._syspath_edit)
+        req_form.addRow(
+            "",
+            _hint(
+                "The Aware IDMS hierarchy path that sits above each entity.  "
+                "Each entity name is appended automatically  (e.g.  … > GG-DIS-01)."
+            ),
+        )
+        root.addWidget(req_grp)
+
+        # ── OUTPUT OPTIONS ────────────────────────────────────────────────
+        out_grp  = QGroupBox("Output  —  where and how the CSV is saved  (all optional)")
+        out_form = QFormLayout(out_grp)
+        out_form.setRowWrapPolicy(QFormLayout.RowWrapPolicy.DontWrapRows)
+        out_form.setFieldGrowthPolicy(QFormLayout.FieldGrowthPolicy.ExpandingFieldsGrow)
+        out_form.setSpacing(5)
+        out_form.setContentsMargins(10, 10, 10, 10)
 
         # Output Dir
-        out_row = QHBoxLayout()
+        outdir_row = QHBoxLayout()
         self._outdir_edit = QLineEdit()
-        self._outdir_edit.setPlaceholderText("Leave blank to save alongside this script")
-        out_row.addWidget(self._outdir_edit)
-        out_browse = QPushButton("Browse…")
-        out_browse.clicked.connect(lambda: self._browse_dir(self._outdir_edit))
-        out_row.addWidget(out_browse)
-        form.addRow("Output Dir:", out_row)
+        self._outdir_edit.setPlaceholderText(
+            "Leave blank → CSV is saved in the DesignDocImporter folder"
+        )
+        outdir_row.addWidget(self._outdir_edit)
+        outdir_browse = QPushButton("Browse…")
+        outdir_browse.clicked.connect(lambda: self._browse_dir(self._outdir_edit))
+        outdir_row.addWidget(outdir_browse)
+        out_form.addRow("Output Dir:", outdir_row)
 
         # Project Name
         self._project_edit = QLineEdit()
-        self._project_edit.setPlaceholderText("Used in output filename  e.g. GoldenGrain")
-        form.addRow("Project Name:", self._project_edit)
+        self._project_edit.setPlaceholderText(
+            "e.g.  GoldenGrain  →  output file: Equip_CADimport_GoldenGrain_20260417.csv"
+        )
+        out_form.addRow("Project Name:", self._project_edit)
+
+        # Filename Override
+        self._outfile_edit = QLineEdit()
+        self._outfile_edit.setPlaceholderText(
+            "Optional — overrides the auto-generated name entirely  "
+            "e.g.  Equip_DesignDocs_MyJob.csv"
+        )
+        out_form.addRow("Filename Override:", self._outfile_edit)
+        root.addWidget(out_grp)
+
+        # ── SCAN OPTIONS ──────────────────────────────────────────────────
+        scan_grp  = QGroupBox("Scan Options  —  controls how files are discovered")
+        scan_form = QFormLayout(scan_grp)
+        scan_form.setRowWrapPolicy(QFormLayout.RowWrapPolicy.DontWrapRows)
+        scan_form.setFieldGrowthPolicy(QFormLayout.FieldGrowthPolicy.ExpandingFieldsGrow)
+        scan_form.setSpacing(5)
+        scan_form.setContentsMargins(10, 10, 10, 10)
 
         # Max Depth
+        depth_row = QHBoxLayout()
         self._depth_spin = QSpinBox()
         self._depth_spin.setRange(1, 20)
         self._depth_spin.setValue(10)
-        self._depth_spin.setFixedWidth(70)
-        form.addRow("Max Depth:", self._depth_spin)
+        self._depth_spin.setFixedWidth(65)
+        depth_row.addWidget(self._depth_spin)
+        depth_row.addWidget(
+            _hint("  Folder levels to scan.  2 is usually enough for a CAD → CAD PDF structure.")
+        )
+        depth_row.addStretch()
+        scan_form.addRow("Max Depth:", depth_row)
 
-        # Checkboxes
-        self._ignore_recover_cb = QCheckBox("Ignore _recover files")
+        self._auto_discover_cb = QCheckBox(
+            "Auto-discover entities from filenames  "
+            "(recommended — no manual entity list needed)"
+        )
+        self._auto_discover_cb.setChecked(True)
+        scan_form.addRow("", self._auto_discover_cb)
+
+        self._ignore_recover_cb = QCheckBox(
+            "Ignore _recover files  (skip AutoCAD automatic backup files)"
+        )
         self._ignore_recover_cb.setChecked(True)
-        form.addRow("", self._ignore_recover_cb)
+        scan_form.addRow("", self._ignore_recover_cb)
 
-        self._prefer_dwg_cb = QCheckBox("Prefer DWG for entity discovery")
+        self._prefer_dwg_cb = QCheckBox(
+            "Prefer DWG for entity discovery  "
+            "(use .dwg filenames as the entity source rather than PDFs)"
+        )
         self._prefer_dwg_cb.setChecked(True)
-        form.addRow("", self._prefer_dwg_cb)
+        scan_form.addRow("", self._prefer_dwg_cb)
+        root.addWidget(scan_grp)
 
-        root.addWidget(fields_grp)
-
-        # --- Run button ---
+        # ── Run button ────────────────────────────────────────────────────
         run_row = QHBoxLayout()
         run_row.addStretch()
         self._run_btn = QPushButton("▶   Run")
-        self._run_btn.setMinimumWidth(150)
+        self._run_btn.setMinimumWidth(160)
         self._run_btn.setMinimumHeight(36)
         self._run_btn.setStyleSheet(
-            "QPushButton { background-color: #2d7d32; color: #fff; "
-            "border: none; border-radius: 3px; font-weight: bold; padding: 8px 24px; }"
+            "QPushButton { background-color: #2d7d32; color: #fff; border: none; "
+            "border-radius: 3px; font-weight: bold; padding: 8px 24px; }"
             "QPushButton:hover { background-color: #388e3c; }"
             "QPushButton:disabled { background-color: #252526; color: #6d6d6d; }"
         )
@@ -225,18 +322,18 @@ class DesignDocDialog(QDialog):
         run_row.addStretch()
         root.addLayout(run_row)
 
-        # --- Log output ---
+        # ── Output Log ────────────────────────────────────────────────────
         log_grp    = QGroupBox("Output Log")
         log_layout = QVBoxLayout(log_grp)
         log_layout.setContentsMargins(6, 6, 6, 6)
         self._log = QTextEdit()
         self._log.setReadOnly(True)
         self._log.setFont(QFont("Consolas", 10))
-        self._log.setMinimumHeight(160)
+        self._log.setMinimumHeight(140)
         log_layout.addWidget(self._log)
         root.addWidget(log_grp, 1)
 
-        # --- Close ---
+        # ── Close ─────────────────────────────────────────────────────────
         close_row = QHBoxLayout()
         close_row.addStretch()
         close_btn = QPushButton("Close")
@@ -266,17 +363,30 @@ class DesignDocDialog(QDialog):
 
     def _build_config(self) -> dict:
         return {
-            "ROOT_DIR":                       self._root_edit.text().strip(),
-            "SYSTEM_PATH_BASE":               self._syspath_edit.text().strip(),
-            "OUTPUT_DIR":                     self._outdir_edit.text().strip(),
-            "OUTPUT_FILENAME":                "",
-            "PROJECT_NAME":                   self._project_edit.text().strip(),
-            "MAX_DEPTH":                      self._depth_spin.value(),
-            "ENTITIES":                       [],
-            "AUTO_DISCOVER_ENTITIES":         True,
-            "IGNORE_RECOVER_FILES":           self._ignore_recover_cb.isChecked(),
+            "ROOT_DIR":                        self._root_edit.text().strip(),
+            "SYSTEM_PATH_BASE":                self._syspath_edit.text().strip(),
+            "OUTPUT_DIR":                      self._outdir_edit.text().strip(),
+            "OUTPUT_FILENAME":                 self._outfile_edit.text().strip(),
+            "PROJECT_NAME":                    self._project_edit.text().strip(),
+            "MAX_DEPTH":                       self._depth_spin.value(),
+            "ENTITIES":                        [],
+            "AUTO_DISCOVER_ENTITIES":          self._auto_discover_cb.isChecked(),
+            "IGNORE_RECOVER_FILES":            self._ignore_recover_cb.isChecked(),
             "PREFER_DWG_FOR_ENTITY_DISCOVERY": self._prefer_dwg_cb.isChecked(),
         }
+
+    def _clear_fields(self):
+        self._cfg_edit.clear()
+        self._root_edit.clear()
+        self._syspath_edit.clear()
+        self._outdir_edit.clear()
+        self._project_edit.clear()
+        self._outfile_edit.clear()
+        self._depth_spin.setValue(10)
+        self._auto_discover_cb.setChecked(True)
+        self._ignore_recover_cb.setChecked(True)
+        self._prefer_dwg_cb.setChecked(True)
+        self._log.clear()
 
     # ------------------------------------------------------------------
     # Config file I/O
@@ -300,8 +410,10 @@ class DesignDocDialog(QDialog):
             self._root_edit.setText(cfg.get("ROOT_DIR", ""))
             self._syspath_edit.setText(cfg.get("SYSTEM_PATH_BASE", ""))
             self._outdir_edit.setText(cfg.get("OUTPUT_DIR", ""))
+            self._outfile_edit.setText(cfg.get("OUTPUT_FILENAME", ""))
             self._project_edit.setText(cfg.get("PROJECT_NAME", ""))
             self._depth_spin.setValue(cfg.get("MAX_DEPTH", 10))
+            self._auto_discover_cb.setChecked(cfg.get("AUTO_DISCOVER_ENTITIES", True))
             self._ignore_recover_cb.setChecked(cfg.get("IGNORE_RECOVER_FILES", True))
             self._prefer_dwg_cb.setChecked(cfg.get("PREFER_DWG_FOR_ENTITY_DISCOVERY", True))
             if not quiet:
@@ -325,12 +437,20 @@ class DesignDocDialog(QDialog):
                 return
             self._cfg_edit.setText(path)
         lines = [
+            "# Design Doc Importer — job config",
+            "#",
+            "# REQUIRED",
             f"ROOT_DIR={self._root_edit.text()}",
             f"SYSTEM_PATH_BASE={self._syspath_edit.text()}",
-            f"MAX_DEPTH={self._depth_spin.value()}",
+            "#",
+            "# OUTPUT (all optional)",
             f"OUTPUT_DIR={self._outdir_edit.text()}",
             f"PROJECT_NAME={self._project_edit.text()}",
-            "AUTO_DISCOVER_ENTITIES=true",
+            f"OUTPUT_FILENAME={self._outfile_edit.text()}",
+            "#",
+            "# SCAN OPTIONS",
+            f"MAX_DEPTH={self._depth_spin.value()}",
+            f"AUTO_DISCOVER_ENTITIES={'true' if self._auto_discover_cb.isChecked() else 'false'}",
             f"IGNORE_RECOVER_FILES={'true' if self._ignore_recover_cb.isChecked() else 'false'}",
             f"PREFER_DWG_FOR_ENTITY_DISCOVERY={'true' if self._prefer_dwg_cb.isChecked() else 'false'}",
         ]
@@ -347,10 +467,17 @@ class DesignDocDialog(QDialog):
     def _on_run(self):
         cfg = self._build_config()
         if not cfg["ROOT_DIR"]:
-            QMessageBox.warning(self, "Missing Field", "CAD Root Dir is required.")
+            QMessageBox.warning(self, "Missing Required Field",
+                                "CAD Root Dir is required.\n\n"
+                                "Point it at the folder containing your .dwg files.")
+            self._root_edit.setFocus()
             return
         if not cfg["SYSTEM_PATH_BASE"]:
-            QMessageBox.warning(self, "Missing Field", "System Path Base is required.")
+            QMessageBox.warning(self, "Missing Required Field",
+                                "System Path Base is required.\n\n"
+                                "This is the Aware IDMS hierarchy path above your entities\n"
+                                "e.g.  XCEL > Site > Unit > Piping >")
+            self._syspath_edit.setFocus()
             return
         if self._worker and self._worker.isRunning():
             return

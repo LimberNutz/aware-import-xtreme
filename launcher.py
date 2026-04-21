@@ -2,10 +2,18 @@ import sys
 import os
 
 os.environ.setdefault("QT_LOGGING_RULES", "qt.qpa.screen=false;qt.svg.warning=false")
-os.environ.setdefault("QT_SCALE_FACTOR_ROUNDING_POLICY", "RoundPreferFloor")
 
+# IMPORTANT: HiDPI rounding policy must be configured BEFORE QApplication
+# is constructed. We set it via the explicit API (not the env var, which
+# Qt 6 processes late and warns about) and do it at import time so any
+# downstream module that instantiates QApplication still sees it.
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QFont, QGuiApplication
 from PySide6.QtWidgets import QApplication
-from PySide6.QtGui import QFont
+
+QGuiApplication.setHighDpiScaleFactorRoundingPolicy(
+    Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
+)
 
 from launcher.main_window import LauncherWindow
 

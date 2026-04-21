@@ -38,6 +38,7 @@ _BTN_TEXT = {
     "running": "Stop",
     "crashed": "Relaunch",
 }
+_BTN_TEXT_DIALOG = "Open…"
 
 
 def _card_sheet(border: str) -> str:
@@ -106,12 +107,20 @@ class ToolCard(QFrame):
         layout.addStretch()
 
         # Status indicator
-        self._status_lbl = QLabel(_STATUS_TEXT["stopped"])
-        self._status_lbl.setStyleSheet(_STATUS_STYLE["stopped"] + " border: none; font-size: 12px;")
+        is_dialog = self._tool.get("launch_mode", "subprocess") == "dialog"
+        if is_dialog:
+            status_text = "⬤  Ready"
+            status_style = "color: #007acc; border: none; font-size: 12px;"
+        else:
+            status_text = _STATUS_TEXT["stopped"]
+            status_style = _STATUS_STYLE["stopped"] + " border: none; font-size: 12px;"
+        self._status_lbl = QLabel(status_text)
+        self._status_lbl.setStyleSheet(status_style)
         layout.addWidget(self._status_lbl)
 
-        # Launch / Stop / Relaunch button
-        self._btn = QPushButton(_BTN_TEXT["stopped"])
+        # Launch / Stop / Relaunch / Open button
+        btn_text = _BTN_TEXT_DIALOG if is_dialog else _BTN_TEXT["stopped"]
+        self._btn = QPushButton(btn_text)
         self._btn.setStyleSheet(_BTN_STYLE["stopped"])
         self._btn.setMinimumHeight(34)
         self._btn.clicked.connect(self._on_btn_clicked)
@@ -123,11 +132,11 @@ class ToolCard(QFrame):
 
     def _on_btn_clicked(self):
         tid  = self._tool["id"]
-        mode = self._tool.get("launch_mode", "subprocess")
-        if self._status == "running":
-            self.stop_clicked.emit(tid)
-        elif mode == "dialog":
+        if self._tool.get("launch_mode", "subprocess") == "dialog":
+            # Dialog-mode tools always open the dialog
             self.dialog_requested.emit(tid)
+        elif self._status == "running":
+            self.stop_clicked.emit(tid)
         else:
             self.launch_clicked.emit(tid)
 
@@ -137,6 +146,11 @@ class ToolCard(QFrame):
 
     def set_status(self, status: str):
         self._status = status
+        is_dialog = self._tool.get("launch_mode", "subprocess") == "dialog"
+        if is_dialog:
+            # Dialog-mode tools never have a subprocess state — keep label fixed at "Ready"
+            # and button fixed at "Open…"
+            return
         self._status_lbl.setText(_STATUS_TEXT.get(status, _STATUS_TEXT["stopped"]))
         self._status_lbl.setStyleSheet(
             _STATUS_STYLE.get(status, _STATUS_STYLE["stopped"]) + " border: none; font-size: 12px;"
@@ -150,17 +164,17 @@ class ToolCard(QFrame):
 
     def _show_context_menu(self, pos):
         tid  = self._tool["id"]
-        mode = self._tool.get("launch_mode", "subprocess")
         menu = QMenu(self)
 
-        if self._status == "running":
-            act_stop = QAction("Stop", self)
-            act_stop.triggered.connect(lambda: self.stop_clicked.emit(tid))
-            menu.addAction(act_stop)
-        elif mode == "dialog":
+        if self._tool.get("launch_mode", "subprocess") == "dialog":
+            # Dialog-mode tools always show "Open…" action
             act_open = QAction("Open\u2026", self)
             act_open.triggered.connect(lambda: self.dialog_requested.emit(tid))
             menu.addAction(act_open)
+        elif self._status == "running":
+            act_stop = QAction("Stop", self)
+            act_stop.triggered.connect(lambda: self.stop_clicked.emit(tid))
+            menu.addAction(act_stop)
         else:
             act_launch = QAction("Launch", self)
             act_launch.triggered.connect(lambda: self.launch_clicked.emit(tid))
